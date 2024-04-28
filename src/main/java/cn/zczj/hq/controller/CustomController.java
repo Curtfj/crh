@@ -26,4 +26,12 @@ public class CustomController {
         }
         return attrService.getAttrList();
     }
+    @GetMapping("/add")
+    public Boolean addAttr(){
+        Attr attr = new Attr();
+        attr.setStage("dsdsdsd啊啊是");
+        attr.setMeasure("sdsdsd说的是顶顶顶");
+        attr.setSituation("傻傻的酒啊后的");
+        return attrService.addAttr(attr);
+    }
 }

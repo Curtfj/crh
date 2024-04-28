@@ -2,7 +2,9 @@ package cn.zczj.hq.pojo.po;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
@@ -10,6 +12,8 @@ import java.util.Date;
  * 政策
  */
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @TableName("zczj_policy")
 public class Policy {
     private Integer id;

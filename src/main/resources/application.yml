@@ -19,6 +19,7 @@ mybatis-plus:
     dbConfig:
       capital-mode: false
       column-format: "\"%s\""
+      id-type: auto #id????????id??
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl #??sql??
     map-underscore-to-camel-case: true

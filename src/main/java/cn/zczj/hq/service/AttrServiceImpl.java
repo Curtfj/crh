@@ -9,7 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-@Transactional
 public class AttrServiceImpl extends ServiceImpl<AttrMapper, Attr> implements AttrService {
 
     @Override
