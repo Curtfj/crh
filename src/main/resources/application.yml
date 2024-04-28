@@ -1,0 +1,27 @@
+spring:
+  datasource:
+    driver-class-name: dm.jdbc.driver.DmDriver
+    url: jdbc:dm://127.0.0.1:5236/SYSDBA?autoReconnect=true&useUnicode=true&characterEncoding=GB18030
+    username: SYSDBA
+    password: SYSDBA
+  hikari:
+    minimum-idle: 5
+    idle-timeout: 180000
+    maximum-pool-size: 10
+    auto-commit: true
+    pool-name: MyHikariCP
+    max-lifetime: 1800000
+    connection-timeout: 30000
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/*Mapper.xml
+  type-aliases-package: cn.zczj.hq.pojo.po
+  global-config:
+    dbConfig:
+      capital-mode: false
+      column-format: "\"%s\""
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl #??sql??
+    map-underscore-to-camel-case: true
+  logging:
+    level:
+      cn.zczj.hq.mapper: debug
