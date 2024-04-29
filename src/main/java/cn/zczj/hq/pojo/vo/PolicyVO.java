@@ -6,11 +6,12 @@ import lombok.extern.java.Log;
 import java.util.Date;
 @Data
 public class PolicyVO {
-    private Integer id;
+    private Long id;
     private Integer policyType;
     private String policyName;
     private String address;
     private Date eddectiveDate;
     private Date deadline;
     private Integer remainNum;
+    private Boolean isReport;
 }

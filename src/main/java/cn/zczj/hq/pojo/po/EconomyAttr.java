@@ -8,5 +8,6 @@ import lombok.Data;
 public class EconomyAttr {
     private Long id;
     private String attrCategory;
+    private Integer isDeleted;
     private String attrName;
 }

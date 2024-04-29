@@ -10,4 +10,5 @@ public interface AttrService extends IService<Attr> {
     public Boolean insertAttr(Attr attr);
 
     public Boolean updateAttr(Attr attr);
+    
 }

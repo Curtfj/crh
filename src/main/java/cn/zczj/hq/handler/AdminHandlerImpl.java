@@ -3,9 +3,12 @@ package cn.zczj.hq.handler;
 import cn.zczj.hq.enums.LargeCategoryEnum;
 import cn.zczj.hq.pojo.dto.AdminUserInfoDto;
 import cn.zczj.hq.pojo.dto.AttrDto;
+import cn.zczj.hq.pojo.dto.PolicyDto;
 import cn.zczj.hq.pojo.po.Attr;
 import cn.zczj.hq.pojo.po.EconomyAttr;
+import cn.zczj.hq.pojo.po.Policy;
 import cn.zczj.hq.pojo.vo.AttrDetailVO;
+import cn.zczj.hq.pojo.vo.AttrVO;
 import cn.zczj.hq.pojo.vo.CategoryAttrVO;
 import cn.zczj.hq.service.*;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -31,6 +34,7 @@ public class AdminHandlerImpl implements AdminHandler {
     private RewProjectService rewProjectService;
     @Resource
     private ProjectByAttrService projectByAttrService;
+
 
 
     @Override
@@ -69,5 +73,45 @@ public class AdminHandlerImpl implements AdminHandler {
         attr.setUpdateTime(new Date());
         return attrService.insertAttr(attr);
 
+    }
+
+    @Override
+    public Boolean savePolicy(PolicyDto policyDto) {
+        Policy policy = new Policy();
+        policy.setAddress(policyDto.getAddress());
+        policy.setPolicyContent(policyDto.getPolicyContent());
+        policy.setPolicyName(policyDto.getPolicyName());
+        policy.setDeadline(policyDto.getDeadline());
+        policy.setEddectiveDate(policyDto.getEddectiveDate());
+        policy.setHqCategoryId(policyDto.getHqCategoryId());
+        policy.setSponsor(policyDto.getSponsor());
+        policy.setSupervisorPhone(policyDto.getSupervisorPhone());
+        AdminUserInfoDto adminUserInfoDto= AdminUserInfoDto.getAdminInstance();
+        if(policyDto.getId() != null){
+            policy.setUpdateBy(adminUserInfoDto.getId());
+            policy.setUpdateTime(new Date());
+            policy.setId(policyDto.getId());
+            return policyService.updatePolicy(policy);
+        }
+        policy.setCreateBy(adminUserInfoDto.getId());
+        policy.setCreateTime(new Date());
+        policy.setUpdateBy(adminUserInfoDto.getId());
+        policy.setUpdateTime(new Date());
+        return policyService.insertPolicy(policy);
+    }
+
+    @Override
+    public List<AttrVO> attrList() {
+        List<AttrVO> collect = attrService.list().stream().map(o -> {
+            AttrVO attrVO = new AttrVO();
+            attrVO.setId(Long.valueOf(o.getId()));
+            EconomyAttr byId = economyAttrService.getById(o.getReId());
+            attrVO.setName(byId.getAttrName());
+            return attrVO;
+        }).collect(Collectors.toList());
+        if(collect!=null){
+            return collect;
+        }
+        return new ArrayList<>();
     }
 }
