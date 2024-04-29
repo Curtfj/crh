@@ -43,9 +43,16 @@ public class AdminHandlerImpl implements AdminHandler {
         List<CategoryAttrVO> categoryAttrVOList = new ArrayList<>();
         for (String s : collect) {
             List<EconomyAttr> attrByCategoryName = economyAttrService.getAttrByCategoryName(s);
-            for (EconomyAttr economyAttr : attrByCategoryName) {
-                categoryAttrVOList.add(new CategoryAttrVO(economyAttr.getId(), economyAttr.getAttrCategory(), economyAttr.getAttrName()));
-            }
+            CategoryAttrVO categoryAttrVO =new CategoryAttrVO();
+            categoryAttrVO.setName(s);
+            categoryAttrVO.setAttrVOList(
+                    attrByCategoryName.stream().map(o->{
+                        CategoryAttrVO.AttrVO attrVO= new CategoryAttrVO.AttrVO();
+                        attrVO.setId(o.getId());
+                        attrVO.setAttrName(o.getAttrName());
+                        return attrVO;
+                    }).collect(Collectors.toList()));
+            categoryAttrVOList.add(categoryAttrVO);
         }
         return categoryAttrVOList;
     }

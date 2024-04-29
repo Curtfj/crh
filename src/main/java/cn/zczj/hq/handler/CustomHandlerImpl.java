@@ -54,23 +54,30 @@ public class CustomHandlerImpl implements CustomHandler {
         LambdaQueryWrapper<Attr> in = new LambdaQueryWrapper<Attr>().in(Attr::getReId, relIdList);
         List<Attr> list = attrService.list(in);
         Map<Long, Attr> collect = list.stream().collect(toMap(Attr::getReId, Function.identity()));
-        List<AttrDetailVO> attrDetailVOList = economyAttrList.stream().map(a -> {
+        List<PolicyVO> policyList = new ArrayList<>();
+        List<AttrDetailVO> attrDetailVOList = new ArrayList<>();
+        for (EconomyAttr a : economyAttrList) {
             AttrDetailVO vo = new AttrDetailVO();
             Attr attr = collect.get(a.getId());
-            vo.setId(attr.getId());
+            if(attr != null){
+                vo.setId(attr.getId());
+                vo.setMeasure(attr.getMeasure());
+                vo.setSituation(attr.getSituation());
+                vo.setStage(attr.getStage());
+                policyList = getPolicyList(Long.valueOf(attr.getId()));
+            }
+
             vo.setName(a.getAttrName());
-            vo.setMeasure(attr.getMeasure());
-            vo.setSituation(attr.getSituation());
-            vo.setStage(attr.getStage());
+
             List<PolicyVO> outPolicyList = getOutPolicyList(a.getId());
-            List<PolicyVO> policyList = getPolicyList(Long.valueOf(attr.getId()));
+
             if (!CollectionUtils.isEmpty(outPolicyList)) {
                 policyList.addAll(outPolicyList);
             }
             vo.setCount(policyList.size());
             vo.setPolicyList(policyList);
-            return vo;
-        }).collect(Collectors.toList());
+            attrDetailVOList.add(vo);
+        }
         return attrDetailVOList;
     }
 
