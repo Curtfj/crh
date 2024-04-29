@@ -14,7 +14,7 @@ import java.net.http.HttpHeaders;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
-@WebFilter("/admin/*")
+//@WebFilter("/admin/*")
 public class TokenAdminInterceptor implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {

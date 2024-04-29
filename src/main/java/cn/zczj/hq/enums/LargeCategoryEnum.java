@@ -17,7 +17,7 @@ public enum LargeCategoryEnum {
     };
     private final String categoryCode;
     private final String categoryName;
-    public static String getCodeByName(String categoryCode) {
+    public static String getNameByCode(String categoryCode) {
         for (LargeCategoryEnum largeCategoryEnum : LargeCategoryEnum.values()) {
             if (largeCategoryEnum.getCategoryCode().equals(categoryCode)) {
                 return largeCategoryEnum.getCategoryName();

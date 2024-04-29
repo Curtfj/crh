@@ -6,19 +6,28 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 @Service
 public class AttrServiceImpl extends ServiceImpl<AttrMapper, Attr> implements AttrService {
-
+    @Resource
+    private AttrMapper attrMapper;
     @Override
-    public List<Attr> getAttrList() {
-        return list();
+    public Boolean insertAttr(Attr attr) {
+        int i = attrMapper.insertAttr(attr);
+        if(i>0){
+            return true;
+        }
+        return false;
     }
 
     @Override
-    public boolean addAttr(Attr attr) {
-        boolean a = save(attr);
-        return a;
+    public Boolean updateAttr(Attr attr) {
+        int i = attrMapper.updateAttr(attr);
+        if(i>0){
+            return true;
+        }
+        return false;
     }
 }

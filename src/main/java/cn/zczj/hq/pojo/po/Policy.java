@@ -14,7 +14,7 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@TableName("zczj_policy")
+@TableName("\"zczj_policy\"")
 public class Policy {
     private Integer id;
     private String policyName;

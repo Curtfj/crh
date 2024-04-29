@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import java.util.List;
 
 public interface AttrService extends IService<Attr> {
-    List<Attr> getAttrList();
-    boolean addAttr(Attr attr);
+    public Boolean insertAttr(Attr attr);
+
+    public Boolean updateAttr(Attr attr);
 }

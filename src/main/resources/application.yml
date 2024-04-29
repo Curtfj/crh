@@ -26,3 +26,5 @@ mybatis-plus:
   logging:
     level:
       cn.zczj.hq.mapper: debug
+server:
+  port: 8080
