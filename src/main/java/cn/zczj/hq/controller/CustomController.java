@@ -5,6 +5,7 @@ import cn.zczj.hq.enums.LargeCategoryEnum;
 import cn.zczj.hq.handler.CustomHandler;
 import cn.zczj.hq.pojo.po.Attr;
 import cn.zczj.hq.pojo.vo.AttrDetailVO;
+import cn.zczj.hq.pojo.vo.PolicyDetailVO;
 import cn.zczj.hq.service.AttrService;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,7 +18,11 @@ public class CustomController {
     @Resource
     private CustomHandler customHandler;
     @GetMapping("/attrDetail")
-    public Result<List<AttrDetailVO>> getAttrDetail(@RequestBody String categoryCode){
+    public Result<List<AttrDetailVO>> getAttrDetail(@RequestParam String categoryCode){
         return Result.success(customHandler.getAttrAndPolicyByCategoryCode(categoryCode));
+    }
+    @GetMapping("/policyDetail")
+    public Result<PolicyDetailVO> getPolicyDetail(@RequestParam Integer policyId){
+        return Result.success(customHandler.getPolicyDetailVO(policyId));
     }
 }

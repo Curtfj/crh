@@ -18,9 +18,6 @@ public class ProjectByAttrServiceImpl extends ServiceImpl<ProjectByAttrMapper, P
         LambdaQueryWrapper<ProjectByAttr> wrapper =new LambdaQueryWrapper();
         wrapper.eq(ProjectByAttr::getPrivateEconomyAttrsId, attrId);
         List<ProjectByAttr> list = list(wrapper);
-        if(list.size()>0){
-            return list;
-        }
-        return null;
+        return list;
     }
 }
