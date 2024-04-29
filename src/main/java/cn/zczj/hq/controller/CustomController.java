@@ -17,12 +17,17 @@ import java.util.List;
 public class CustomController {
     @Resource
     private CustomHandler customHandler;
+
     @GetMapping("/attrDetail")
-    public Result<List<AttrDetailVO>> getAttrDetail(@RequestParam String categoryCode){
+    public Result<List<AttrDetailVO>> getAttrDetail(@RequestParam String categoryCode) {
         return Result.success(customHandler.getAttrAndPolicyByCategoryCode(categoryCode));
     }
+
     @GetMapping("/policyDetail")
-    public Result<PolicyDetailVO> getPolicyDetail(@RequestParam Integer policyId){
-        return Result.success(customHandler.getPolicyDetailVO(policyId));
+    public Result<PolicyDetailVO> getPolicyDetail(@RequestParam Integer policyId) {
+        if (customHandler.getPolicyDetailVO(policyId) == null) {
+            return Result.fail(402, "未查询到详情");
+        }
+        return Result.success();
     }
 }
