@@ -1,0 +1,6 @@
+spring:
+  datasource:
+    driver-class-name: dm.jdbc.driver.DmDriver
+    url: jdbc:dm://10.25.25.137:5235/REWARD?autoReconnect=true&useUnicode=true&characterEncoding=GB18030
+    username: REWARD
+    password: ReWaRd#zshq#2023#12#14dm
