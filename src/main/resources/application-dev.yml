@@ -1,0 +1,6 @@
+spring:
+  datasource:
+    driver-class-name: dm.jdbc.driver.DmDriver
+    url: jdbc:dm://192.168.1.131:5236/SYSDBA?autoReconnect=true&useUnicode=true&characterEncoding=GB18030
+    username: SYSDBA
+    password: SYSDBA
