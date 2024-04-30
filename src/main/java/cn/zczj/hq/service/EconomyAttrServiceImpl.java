@@ -14,6 +14,7 @@ public class EconomyAttrServiceImpl extends ServiceImpl<EconomyAttrMapper, Econo
     public List<EconomyAttr> getAttrByCategoryName(String categoryName) {
         LambdaQueryWrapper<EconomyAttr> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(EconomyAttr::getAttrCategory,categoryName);
+        queryWrapper.eq(EconomyAttr::getIsDeleted,0);
         List<EconomyAttr> list = list(queryWrapper);
         return list;
     }

@@ -7,7 +7,7 @@ import java.util.List;
 
 @Data
 public class AttrDetailVO {
-    private Integer id;
+    private Long id;
     private String name;
     private Integer count;
     private String measure;

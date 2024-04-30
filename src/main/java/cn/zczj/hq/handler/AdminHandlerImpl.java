@@ -45,7 +45,7 @@ public class AdminHandlerImpl implements AdminHandler {
             List<EconomyAttr> attrByCategoryName = economyAttrService.getAttrByCategoryName(s);
             CategoryAttrVO categoryAttrVO =new CategoryAttrVO();
             categoryAttrVO.setName(s);
-            categoryAttrVO.setAttrVOList(
+            categoryAttrVO.setAttrList(
                     attrByCategoryName.stream().map(o->{
                         CategoryAttrVO.AttrVO attrVO= new CategoryAttrVO.AttrVO();
                         attrVO.setId(o.getId());
@@ -60,6 +60,9 @@ public class AdminHandlerImpl implements AdminHandler {
     @Override
     public Boolean saveAttr(AttrDto attrDto) {
         Attr attr = new Attr();
+        if(attrDto.getReId() == null ){
+            return false;
+        }
         attr.setMeasure(attrDto.getMeasure());
         attr.setSituation(attrDto.getSituation());
         attr.setStage(attrDto.getStage());
@@ -113,7 +116,9 @@ public class AdminHandlerImpl implements AdminHandler {
             AttrVO attrVO = new AttrVO();
             attrVO.setId(Long.valueOf(o.getId()));
             EconomyAttr byId = economyAttrService.getById(o.getReId());
-            attrVO.setName(byId.getAttrName());
+            if(byId != null){
+                attrVO.setName(byId.getAttrName());
+            }
             return attrVO;
         }).collect(Collectors.toList());
         if(collect!=null){

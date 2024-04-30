@@ -12,7 +12,7 @@ import java.util.List;
 public class CategoryAttrVO {
 
     private String name;
-    private List<AttrVO> attrVOList;
+    private List<AttrVO> attrList;
     @Data
     @AllArgsConstructor
     @NoArgsConstructor

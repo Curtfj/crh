@@ -25,9 +25,10 @@ public class CustomController {
 
     @GetMapping("/policyDetail")
     public Result<PolicyDetailVO> getPolicyDetail(@RequestParam Integer policyId) {
-        if (customHandler.getPolicyDetailVO(policyId) == null) {
+        PolicyDetailVO policyDetailVO = customHandler.getPolicyDetailVO(policyId);
+        if (policyDetailVO == null) {
             return Result.fail(402, "未查询到详情");
         }
-        return Result.success();
+        return Result.success(policyDetailVO);
     }
 }

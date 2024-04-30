@@ -13,12 +13,10 @@ import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -59,8 +57,9 @@ public class CustomHandlerImpl implements CustomHandler {
         for (EconomyAttr a : economyAttrList) {
             AttrDetailVO vo = new AttrDetailVO();
             Attr attr = collect.get(a.getId());
+            vo.setId(a.getId());
             if(attr != null){
-                vo.setId(attr.getId());
+                vo.setId(Long.valueOf(attr.getId()));
                 vo.setMeasure(attr.getMeasure());
                 vo.setSituation(attr.getSituation());
                 vo.setStage(attr.getStage());
@@ -77,6 +76,7 @@ public class CustomHandlerImpl implements CustomHandler {
             vo.setCount(policyList.size());
             vo.setPolicyList(policyList);
             attrDetailVOList.add(vo);
+            policyList = new ArrayList<>();
         }
         return attrDetailVOList;
     }
@@ -116,12 +116,15 @@ public class CustomHandlerImpl implements CustomHandler {
                 policyVO.setIsReport(false);
             }
             // 将 java.util.Date 类型转换为 java.time.LocalDate 类型
-            LocalDate start = policyVO.getEddectiveDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-            LocalDate end = policyVO.getDeadline().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-
-            // 使用 ChronoUnit.between() 方法计算日期之间的天数差
-            long daysDifference = ChronoUnit.DAYS.between(start, end);
-            policyVO.setRemainNum(Math.toIntExact(daysDifference));
+            LocalDateTime currentTime = LocalDateTime.now();
+            LocalDateTime end = policyVO.getDeadline().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+            if(currentTime.isAfter(end)){
+                policyVO.setRemainNum(0);
+            }else {
+                // 使用 ChronoUnit.between() 方法计算日期之间的天数差
+                long daysDifference = ChronoUnit.DAYS.between(currentTime, end);
+                policyVO.setRemainNum(Math.toIntExact(daysDifference)+1);
+            }
             policyVOList.add(policyVO);
         }
         return policyVOList;
