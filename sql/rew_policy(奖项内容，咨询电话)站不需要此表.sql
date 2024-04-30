@@ -1,0 +1,7 @@
+CREATE TABLE "SYSDBA"."rew_policy"
+(
+"id" BIGINT IDENTITY(1, 1) NOT NULL,
+"is_deleted" BIT,
+"content" TEXT,
+"contact" VARCHAR(50),
+NOT CLUSTER PRIMARY KEY("id")) STORAGE(ON "MAIN", CLUSTERBTR) ;

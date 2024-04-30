@@ -1,0 +1,9 @@
+CREATE TABLE "SYSDBA"."rew_project"
+(
+"id" BIGINT IDENTITY(1, 1) NOT NULL,
+"is_deleted" BIT DEFAULT 0 NOT NULL,
+"name" VARCHAR(255),
+"area_id" BIGINT,
+"dept_id" BIGINT,
+"policy_id" BIGINT,
+NOT CLUSTER PRIMARY KEY("id")) STORAGE(ON "MAIN", CLUSTERBTR) ;
