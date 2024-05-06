@@ -9,7 +9,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CategoryAttrVO {
+public class  CategoryAttrVO {
 
     private String name;
     private List<AttrVO> attrList;

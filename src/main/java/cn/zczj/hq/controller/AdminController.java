@@ -6,6 +6,7 @@ import cn.zczj.hq.handler.CustomHandler;
 import cn.zczj.hq.pojo.dto.AttrDto;
 import cn.zczj.hq.pojo.dto.PolicyDto;
 import cn.zczj.hq.pojo.po.Attr;
+import cn.zczj.hq.pojo.vo.AttrDetailAdminVO;
 import cn.zczj.hq.pojo.vo.AttrDetailVO;
 import cn.zczj.hq.pojo.vo.AttrVO;
 import cn.zczj.hq.pojo.vo.CategoryAttrVO;
@@ -40,5 +41,9 @@ public class AdminController {
     @GetMapping("/sys/attrList")
     public Result<List<AttrVO>> systemAttr(){
         return Result.success(adminHandler.attrList());
+    }
+    @GetMapping("/attrDetail")
+    public Result<AttrDetailAdminVO> getAttrDetail(@RequestParam Long reId){
+        return Result.success(adminHandler.getAttrDetailByReId(reId));
     }
 }

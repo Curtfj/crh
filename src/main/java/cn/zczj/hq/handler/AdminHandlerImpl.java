@@ -7,6 +7,7 @@ import cn.zczj.hq.pojo.dto.PolicyDto;
 import cn.zczj.hq.pojo.po.Attr;
 import cn.zczj.hq.pojo.po.EconomyAttr;
 import cn.zczj.hq.pojo.po.Policy;
+import cn.zczj.hq.pojo.vo.AttrDetailAdminVO;
 import cn.zczj.hq.pojo.vo.AttrDetailVO;
 import cn.zczj.hq.pojo.vo.AttrVO;
 import cn.zczj.hq.pojo.vo.CategoryAttrVO;
@@ -125,5 +126,23 @@ public class AdminHandlerImpl implements AdminHandler {
             return collect;
         }
         return new ArrayList<>();
+    }
+
+    @Override
+    public AttrDetailAdminVO getAttrDetailByReId(Long reId) {
+        LambdaQueryWrapper<Attr> attrLambdaQueryWrapper =new LambdaQueryWrapper<>();
+        attrLambdaQueryWrapper.eq(Attr::getReId,reId);
+        Attr attr = attrService.getOne(attrLambdaQueryWrapper);
+        AttrDetailAdminVO attrDetailAdminVO =new AttrDetailAdminVO();
+        if(attr != null){
+            attrDetailAdminVO.setMeasure(attr.getMeasure());
+            attrDetailAdminVO.setSituation(attrDetailAdminVO.getSituation());
+            attrDetailAdminVO.setStage(attrDetailAdminVO.getStage());
+        }else {
+            attrDetailAdminVO.setSituation("");
+            attrDetailAdminVO.setMeasure("");
+            attrDetailAdminVO.setStage("");
+        }
+        return attrDetailAdminVO;
     }
 }
