@@ -19,7 +19,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 
-//@WebFilter("/admin/*")
+@WebFilter("/admin/*")
 public class TokenAdminInterceptor implements Filter {
 
     private ObjectMapper objectMapper;

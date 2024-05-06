@@ -24,7 +24,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 
-//@WebFilter("/custom/*")
+@WebFilter("/custom/*")
 public class TokenCustomInterceptor implements Filter {
 
     private ObjectMapper objectMapper;
