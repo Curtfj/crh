@@ -99,32 +99,47 @@ public class CustomHandlerImpl implements CustomHandler {
             policyVO.setId(rewProject.getId());
             policyVO.setPolicyType(0);
             policyVO.setPolicyName(rewProject.getName());
+            policyVO.setProcessType(rewProject.getProcessType());
             LambdaQueryWrapper<RewBatch> lambdaQueryWrapper =new LambdaQueryWrapper<>();
             lambdaQueryWrapper.eq(RewBatch::getProjectId,rewProject.getId());
             lambdaQueryWrapper.eq(RewBatch::getIsDeleted,0);
+            lambdaQueryWrapper.eq(RewBatch::getState,"ACTIVE");
             RewBatch rewBatch = rewBatchService.getOne(lambdaQueryWrapper);
+            if (rewBatch == null) {
+                LambdaQueryWrapper<RewBatch> wrapper =new LambdaQueryWrapper<>();
+                wrapper.eq(RewBatch::getProjectId,rewProject.getId());
+                wrapper.eq(RewBatch::getIsDeleted,0);
+                List<RewBatch> list = rewBatchService.list(wrapper);
+                if (!CollectionUtils.isEmpty(list)) {
+                    rewBatch = list.get(0);
+                }
+            }
             LambdaQueryWrapper<ComArea> comAreaLambdaQueryWrapper=new LambdaQueryWrapper<>();
             comAreaLambdaQueryWrapper.eq(ComArea::getId,rewProject.getAreaId());
             comAreaLambdaQueryWrapper.eq(ComArea::getIsDeleted,0);
             ComArea comArea = comAreaService.getOne(comAreaLambdaQueryWrapper);
             policyVO.setAddress(comArea.getName());
-            policyVO.setDeadline(rewBatch.getEndDate());
-            policyVO.setEddectiveDate(rewBatch.getStartDate());
-            if(rewBatch.getState().equals("ACTIVE")){
-                policyVO.setIsReport(true);
-            }else {
-                policyVO.setIsReport(false);
+            if (rewBatch != null) {
+                policyVO.setBatchId(rewBatch.getId());
+                policyVO.setDeadline(rewBatch.getEndDate());
+                policyVO.setEddectiveDate(rewBatch.getStartDate());
+                if(rewBatch.getState().equals("ACTIVE")){
+                    policyVO.setIsReport(true);
+                }else {
+                    policyVO.setIsReport(false);
+                }
+                // 将 java.util.Date 类型转换为 java.time.LocalDate 类型
+                LocalDateTime currentTime = LocalDateTime.now();
+                LocalDateTime end = policyVO.getDeadline().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+                if(currentTime.isAfter(end)){
+                    policyVO.setRemainNum(0);
+                }else {
+                    // 使用 ChronoUnit.between() 方法计算日期之间的天数差
+                    long daysDifference = ChronoUnit.DAYS.between(currentTime, end);
+                    policyVO.setRemainNum(Math.toIntExact(daysDifference)+1);
+                }
             }
-            // 将 java.util.Date 类型转换为 java.time.LocalDate 类型
-            LocalDateTime currentTime = LocalDateTime.now();
-            LocalDateTime end = policyVO.getDeadline().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
-            if(currentTime.isAfter(end)){
-                policyVO.setRemainNum(0);
-            }else {
-                // 使用 ChronoUnit.between() 方法计算日期之间的天数差
-                long daysDifference = ChronoUnit.DAYS.between(currentTime, end);
-                policyVO.setRemainNum(Math.toIntExact(daysDifference)+1);
-            }
+
             policyVOList.add(policyVO);
         }
         return policyVOList;

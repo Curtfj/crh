@@ -10,6 +10,7 @@ public class RewProject {
     private String name;
     private Integer isDeleted;
     private Long areaId;
-    private Long dept_id;
+    private Long deptId;
     private Long policyId;
+    private String processType;
 }

@@ -9,9 +9,11 @@ public class PolicyVO {
     private Long id;
     private Integer policyType;
     private String policyName;
+    private Long batchId;
     private String address;
     private Date eddectiveDate;
     private Date deadline;
     private Integer remainNum;
     private Boolean isReport;
+    private String processType;
 }

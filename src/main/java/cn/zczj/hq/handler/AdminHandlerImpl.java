@@ -136,8 +136,8 @@ public class AdminHandlerImpl implements AdminHandler {
         AttrDetailAdminVO attrDetailAdminVO =new AttrDetailAdminVO();
         if(attr != null){
             attrDetailAdminVO.setMeasure(attr.getMeasure());
-            attrDetailAdminVO.setSituation(attrDetailAdminVO.getSituation());
-            attrDetailAdminVO.setStage(attrDetailAdminVO.getStage());
+            attrDetailAdminVO.setSituation(attr.getSituation());
+            attrDetailAdminVO.setStage(attr.getStage());
         }else {
             attrDetailAdminVO.setSituation("");
             attrDetailAdminVO.setMeasure("");

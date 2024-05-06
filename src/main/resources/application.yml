@@ -1,9 +1,6 @@
 spring:
-  datasource:
-    driver-class-name: dm.jdbc.driver.DmDriver
-    url: jdbc:dm://127.0.0.1:5236/SYSDBA?autoReconnect=true&useUnicode=true&characterEncoding=GB18030
-    username: SYSDBA
-    password: SYSDBA
+  profiles:
+    active: "@profiles.active@"
   hikari:
     minimum-idle: 5
     idle-timeout: 180000
