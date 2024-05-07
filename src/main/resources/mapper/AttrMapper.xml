@@ -5,11 +5,11 @@
 <!--命名空间会映射到接口-->
 <mapper namespace="cn.zczj.hq.mapper.AttrMapper">
     <insert id="insertAttr" parameterType="cn.zczj.hq.pojo.po.Attr" useGeneratedKeys="true" keyProperty="id">
-        insert into "SYSDBA"."zczj_attr"("measure", "situation", "stage", "re_id", "create_by", "create_time", "update_by", "update_time")
+        insert into "zczj_attr"("measure", "situation", "stage", "re_id", "create_by", "create_time", "update_by", "update_time")
         VALUES(#{attr.measure},#{attr.situation},#{attr.stage},#{attr.reId},#{attr.createBy},#{attr.createTime},#{attr.updateBy},#{attr.updateTime});
     </insert>
     <update id="updateAttr" parameterType="cn.zczj.hq.pojo.po.Attr" useGeneratedKeys="true" keyProperty="id">
-        update "SYSDBA"."zczj_attr"
+        update "zczj_attr"
         set "measure" = #{attr.measure}, "situation" = #{attr.situation}, "stage" = #{attr.stage}, "re_id" =#{attr.reId},"update_by" = #{attr.updateBy},
             "update_time" =#{attr.updateTime} where "id" = #{attr.id};
     </update>

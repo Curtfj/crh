@@ -15,6 +15,7 @@ import cn.zczj.hq.service.*;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.util.*;
@@ -64,9 +65,9 @@ public class AdminHandlerImpl implements AdminHandler {
         if(attrDto.getReId() == null ){
             return false;
         }
-        attr.setMeasure(attrDto.getMeasure());
-        attr.setSituation(attrDto.getSituation());
-        attr.setStage(attrDto.getStage());
+        attr.setMeasure(!StringUtils.isEmpty(attrDto.getMeasure()) ? attrDto.getMeasure() : "");
+        attr.setSituation(!StringUtils.isEmpty(attrDto.getSituation()) ? attrDto.getSituation() : "");
+        attr.setStage(!StringUtils.isEmpty(attrDto.getStage()) ? attrDto.getStage() : "");
         AdminUserInfoDto adminUserInfoDto= AdminUserInfoDto.getAdminInstance();
         attr.setReId(attrDto.getReId());
         LambdaQueryWrapper<Attr> lambdaQueryWrapper =new LambdaQueryWrapper<>();

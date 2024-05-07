@@ -6,11 +6,11 @@
 <mapper namespace="cn.zczj.hq.mapper.PolicyMapper">
 
     <insert id="insertPolicy" parameterType="cn.zczj.hq.pojo.po.Policy" keyProperty="id" useGeneratedKeys="true">
-        insert into "SYSDBA"."zczj_policy"("policy_name", "policy_content", "hq_category_id", "supervisor_phone", "sponsor", "address", "create_by", "create_time", "update_by", "update_time", "eddective_date", "deadline")
+        insert into "zczj_policy"("policy_name", "policy_content", "hq_category_id", "supervisor_phone", "sponsor", "address", "create_by", "create_time", "update_by", "update_time", "eddective_date", "deadline")
         VALUES(#{policy.policyName}, #{policy.policyContent},#{policy.hqCategoryId},#{policy.supervisorPhone},#{policy.sponsor}, #{policy.address}, #{policy.createBy}, #{policy.createTime},#{policy.updateBy},#{policy.updateTime},#{policy.eddectiveDate},#{policy.deadline});
     </insert>
     <update id="updatePolicy" parameterType="cn.zczj.hq.pojo.po.Policy" keyProperty="id" useGeneratedKeys="true">
-        update "SYSDBA"."zczj_policy"
+        update "zczj_policy"
         set  "policy_name" = #{policy.policyName}, "policy_content" = #{policy.policyContent}, "hq_category_id" = #{policy.hqCategoryId}, "supervisor_phone" = #{policy.supervisorPhone}, "sponsor" = #{policy.sponsor}, "address" = #{policy.address},  "update_by" = #{policy.updateBy}, "update_time" = #{policy.updateTime}, "eddective_date" = #{policy.eddectiveDate}, "deadline" = #{policy.deadline} where "id" = #{policy.id};
     </update>
 </mapper>

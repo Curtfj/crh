@@ -59,7 +59,6 @@ public class CustomHandlerImpl implements CustomHandler {
             Attr attr = collect.get(a.getId());
             vo.setId(a.getId());
             if(attr != null){
-                vo.setId(Long.valueOf(attr.getId()));
                 vo.setMeasure(attr.getMeasure());
                 vo.setSituation(attr.getSituation());
                 vo.setStage(attr.getStage());
