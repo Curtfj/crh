@@ -2,10 +2,7 @@ package cn.zczj.hq.handler;
 
 import cn.zczj.hq.pojo.dto.AttrDto;
 import cn.zczj.hq.pojo.dto.PolicyDto;
-import cn.zczj.hq.pojo.vo.AttrDetailAdminVO;
-import cn.zczj.hq.pojo.vo.AttrDetailVO;
-import cn.zczj.hq.pojo.vo.AttrVO;
-import cn.zczj.hq.pojo.vo.CategoryAttrVO;
+import cn.zczj.hq.pojo.vo.*;
 
 import java.util.List;
 
@@ -19,4 +16,6 @@ public interface AdminHandler {
     public List<AttrVO> attrList();
 
     AttrDetailAdminVO getAttrDetailByReId(Long reId);
+
+    List<AdminPolicyVO> getAllPolicyList(Long reId);
 }
