@@ -47,4 +47,8 @@ public class AdminController {
     public Result<List<AdminPolicyVO>> getAllPolicy(@RequestParam Long reId){
         return Result.success(adminHandler.getAllPolicyList(reId));
     }
+    @GetMapping("/getOnePolicy")
+    public Result<AdminPolicyVO> getOnePolicy(@RequestParam Integer policyId){
+        return Result.success(adminHandler.getPolicyDetail(policyId));
+    }
 }

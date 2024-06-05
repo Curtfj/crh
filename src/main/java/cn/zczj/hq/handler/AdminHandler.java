@@ -18,4 +18,6 @@ public interface AdminHandler {
     AttrDetailAdminVO getAttrDetailByReId(Long reId);
 
     List<AdminPolicyVO> getAllPolicyList(Long reId);
+
+    AdminPolicyVO getPolicyDetail(Integer id);
 }

@@ -116,7 +116,7 @@ public class AdminHandlerImpl implements AdminHandler {
     public List<AttrVO> attrList() {
         List<AttrVO> collect = attrService.list().stream().map(o -> {
             AttrVO attrVO = new AttrVO();
-            attrVO.setId(Long.valueOf(o.getId()));
+            attrVO.setId(Long.valueOf(o.getReId()));
             EconomyAttr byId = economyAttrService.getById(o.getReId());
             if (byId != null) {
                 attrVO.setName(byId.getAttrName());
@@ -169,5 +169,27 @@ public class AdminHandlerImpl implements AdminHandler {
             return collect;
         }
         return new ArrayList<>();
+    }
+
+    @Override
+    public AdminPolicyVO getPolicyDetail(Integer id) {
+        LambdaQueryWrapper<Policy> policyLambdaQueryWrapper =new LambdaQueryWrapper<>();
+        policyLambdaQueryWrapper.eq(Policy::getId,id);
+        Policy one = policyService.getOne(policyLambdaQueryWrapper);
+        if (one != null) {
+            AdminPolicyVO adminPolicyVO = new AdminPolicyVO();
+            BeanUtils.copyProperties(one, adminPolicyVO);
+            LocalDateTime currentTime = LocalDateTime.now();
+            LocalDateTime end = adminPolicyVO.getDeadline().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+            if (currentTime.isAfter(end)) {
+                adminPolicyVO.setRemainNum(0);
+            } else {
+                // 使用 ChronoUnit.between() 方法计算日期之间的天数差
+                long daysDifference = ChronoUnit.DAYS.between(currentTime, end);
+                adminPolicyVO.setRemainNum(Math.toIntExact(daysDifference) + 1);
+            }
+            return adminPolicyVO;
+        }
+        return new AdminPolicyVO();
     }
 }
