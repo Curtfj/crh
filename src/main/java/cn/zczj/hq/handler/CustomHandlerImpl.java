@@ -167,13 +167,14 @@ public class CustomHandlerImpl implements CustomHandler {
             policyVO.setEddectiveDate(o.getEddectiveDate());
             policyVO.setDeadline(o.getDeadline());
             policyVO.setIsReport(false);
-            LocalDate start = o.getEddectiveDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-            LocalDate end = o.getDeadline().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-            if (start.isAfter(end)) {
+            LocalDateTime currentTime = LocalDateTime.now();
+            LocalDateTime end = o.getDeadline().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+
+            if (currentTime.isAfter(end)) {
                 policyVO.setRemainNum(0);
             } else {
                 // 使用 ChronoUnit.between() 方法计算日期之间的天数差
-                long daysDifference = ChronoUnit.DAYS.between(start, end);
+                long daysDifference = ChronoUnit.DAYS.between(currentTime, end);
                 policyVO.setRemainNum(Math.toIntExact(daysDifference) + 1);
             }
             return policyVO;
