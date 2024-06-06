@@ -1,22 +1,36 @@
 package cn.zczj.hq.handler;
 
 import cn.zczj.hq.enums.LargeCategoryEnum;
-import cn.zczj.hq.pojo.po.*;
+import cn.zczj.hq.pojo.po.Attr;
+import cn.zczj.hq.pojo.po.ComArea;
+import cn.zczj.hq.pojo.po.EconomyAttr;
+import cn.zczj.hq.pojo.po.Policy;
+import cn.zczj.hq.pojo.po.ProjectByAttr;
+import cn.zczj.hq.pojo.po.RewBatch;
+import cn.zczj.hq.pojo.po.RewProject;
 import cn.zczj.hq.pojo.vo.AttrDetailVO;
 import cn.zczj.hq.pojo.vo.PolicyDetailVO;
 import cn.zczj.hq.pojo.vo.PolicyVO;
-import cn.zczj.hq.service.*;
+import cn.zczj.hq.service.AttrService;
+import cn.zczj.hq.service.ComAreaService;
+import cn.zczj.hq.service.DgSysDeptService;
+import cn.zczj.hq.service.EconomyAttrService;
+import cn.zczj.hq.service.PolicyService;
+import cn.zczj.hq.service.ProjectByAttrService;
+import cn.zczj.hq.service.RewBatchService;
+import cn.zczj.hq.service.RewPolicyService;
+import cn.zczj.hq.service.RewProjectService;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -74,11 +88,14 @@ public class CustomHandlerImpl implements CustomHandler {
                 policyList.addAll(outPolicyList);
             }
             vo.setCount(policyList.size());
-            policyList.sort(new Comparator<PolicyVO>() {
-                @Override
-                public int compare(PolicyVO o1, PolicyVO o2) {
-                    return o2.getDeadline().compareTo(o1.getDeadline());
+            policyList.sort((o1, o2) -> {
+                if (o1.getDeadline() == null) {
+                    return 1;
                 }
+                if (o2.getDeadline() == null) {
+                    return -1;
+                }
+                return o2.getDeadline().compareTo(o1.getDeadline());
             });
             vo.setPolicyList(policyList);
             attrDetailVOList.add(vo);
@@ -86,7 +103,6 @@ public class CustomHandlerImpl implements CustomHandler {
         }
         return attrDetailVOList;
     }
-
     @Override
     public List<PolicyVO> getOutPolicyList(Long attrId) {
         List<ProjectByAttr> projectListByAttrId = projectByAttrService.getProjectListByAttrId(attrId);
@@ -120,33 +136,34 @@ public class CustomHandlerImpl implements CustomHandler {
                     rewBatch = list.get(0);
                 }
             }
+            if (rewBatch == null) {
+                continue;
+            }
             LambdaQueryWrapper<ComArea> comAreaLambdaQueryWrapper = new LambdaQueryWrapper<>();
             comAreaLambdaQueryWrapper.eq(ComArea::getId, rewProject.getAreaId());
             comAreaLambdaQueryWrapper.eq(ComArea::getIsDeleted, 0);
             ComArea comArea = comAreaService.getOne(comAreaLambdaQueryWrapper);
             policyVO.setAddress(comArea.getName());
-            if (rewBatch != null) {
-                policyVO.setBatchId(rewBatch.getId());
-                policyVO.setDeadline(rewBatch.getEndDate());
-                policyVO.setEddectiveDate(rewBatch.getStartDate());
-                if (rewBatch.getState().equals("ACTIVE")) {
-                    policyVO.setIsReport(true);
-                } else {
-                    policyVO.setIsReport(false);
-                }
-                if (policyVO.getProcessType().equals("AGENT")) {
-                    policyVO.setIsReport(false);
-                }
-                // 将 java.util.Date 类型转换为 java.time.LocalDate 类型
-                LocalDateTime currentTime = LocalDateTime.now();
-                LocalDateTime end = policyVO.getDeadline().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
-                if (currentTime.isAfter(end)) {
-                    policyVO.setRemainNum(0);
-                } else {
-                    // 使用 ChronoUnit.between() 方法计算日期之间的天数差
-                    long daysDifference = ChronoUnit.DAYS.between(currentTime, end);
-                    policyVO.setRemainNum(Math.toIntExact(daysDifference) + 1);
-                }
+            policyVO.setBatchId(rewBatch.getId());
+            policyVO.setDeadline(rewBatch.getEndDate());
+            policyVO.setEddectiveDate(rewBatch.getStartDate());
+            if (rewBatch.getState().equals("ACTIVE")) {
+                policyVO.setIsReport(true);
+            } else {
+                policyVO.setIsReport(false);
+            }
+            if (policyVO.getProcessType().equals("AGENT")) {
+                policyVO.setIsReport(false);
+            }
+            // 将 java.util.Date 类型转换为 java.time.LocalDate 类型
+            LocalDateTime currentTime = LocalDateTime.now();
+            LocalDateTime end = policyVO.getDeadline().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+            if (currentTime.isAfter(end)) {
+                policyVO.setRemainNum(0);
+            } else {
+                // 使用 ChronoUnit.between() 方法计算日期之间的天数差
+                long daysDifference = ChronoUnit.DAYS.between(currentTime, end);
+                policyVO.setRemainNum(Math.toIntExact(daysDifference) + 1);
             }
 
             policyVOList.add(policyVO);
